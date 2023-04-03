@@ -8,7 +8,7 @@ Pipeline Approach ( preprocessor module)
 
 Streamlit  technology for the frontend 
 
- Matplotlib technology for plotting the graph  
+Matplotlib technology for plotting the graph  
  
 Seaborn for visualization
 
