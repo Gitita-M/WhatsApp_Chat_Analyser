@@ -3,17 +3,37 @@ import preprocessor
 import helper
 import matplotlib.pyplot as plt
 import seaborn as sns
+import sys
 
 st.sidebar.title("Whatsapp Chat Analyzer")
 
-uploaded_file = st.sidebar.file_uploader("Choose a file")
+uploaded_file = st.sidebar.file_uploader("Upload the WhatsApp Chat in a text file", type = "txt")
+info = (f'To get the text file for analysis:\n' 
+        f'1. Open your WhatsApp app.\n' 
+        f'2. Go to the chat you need analysed\n'
+        f'3. In the menu section select "More"\n'
+        f'4. Select "Export chat"\n'
+        f'5. Select "Without media"\n'
+        f'6. Choose the method you want to export your chat logs\n'
+        f'7. Upload the text file in the given space on the left side of this window 👈🏿\n')
+
+placeholder = st.empty()
+placeholder.info(info , icon="ℹ")
+
 if uploaded_file is not None:
+    placeholder.empty()
     bytes_data = uploaded_file.getvalue()
     data = bytes_data.decode("utf-8")
     df = preprocessor.preprocess(data)
 
-    # fetch unique users
-    user_list = df['user'].unique().tolist()
+    if not df.empty:
+      # fetch unique users
+      user_list = df['user'].unique().tolist()
+      
+    else:
+      placeholder.info(info , icon="ℹ")
+      st.warning(f'Oops. You uploaded the wrong text file, please reupload the appropriate file from WhatsApp app.', icon ="⚠")
+      st.stop()
     if 'group_notification' not in user_list:
       st.text(user_list)
     else:
